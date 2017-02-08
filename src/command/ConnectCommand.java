@@ -25,7 +25,8 @@ public class ConnectCommand extends Command {
 
 	// Payload
 	byte msbLengthforIdentifier = 0;
-	byte lsbLengthforIdentifier = 0;
+	byte lsbLengthforIdentifier = 3;
+	byte identifier[] = {65, 66, 67};
 
 	byte msbLengthforWillTopic = 0;
 	byte lsbLengthforWillTopic = 0;
@@ -71,7 +72,9 @@ public class ConnectCommand extends Command {
 		remainingLength += 2; // Keep Alive MSB, LSB (2 bytes)
 
 		// Payload Length
-		remainingLength += 2; // Client Identifier MSB, LSB(2 bytes)
+		remainingLength += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforIdentifier, 
+				lsbLengthforIdentifier); // Client Identifier MSB, LSB(2 bytes) + identifier (? bytes)
+
 		if (flags[2]) { // if Will Flag set 1
 			remainingLength += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforWillTopic, lsbLengthforWillTopic);
 			remainingLength += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforWillMessage, lsbLengthforWillMessage);
@@ -95,11 +98,6 @@ public class ConnectCommand extends Command {
 		int lengthRL = ByteUtils.lengthRLArray(getIntRL());
 		byte[] mergedBytes = new byte[1 + lengthRL + getIntRL()];
 
-		for (int i = 0; i < flags.length; i++) {
-			System.out.print(flags[i] + " ");
-		}
-		System.out.println("");
-
 		ByteBuffer buffer = ByteBuffer.wrap(mergedBytes);
 		// Fixed Header
 		buffer.put(ByteUtils.fixedHeaderCalc(type, flag));
@@ -117,6 +115,7 @@ public class ConnectCommand extends Command {
 		// Payload
 		buffer.put(msbLengthforIdentifier);
 		buffer.put(lsbLengthforIdentifier);
+		buffer.put(identifier);
 		if (flags[2]) {
 			buffer.put(msbLengthforWillTopic);
 			buffer.put(lsbLengthforWillTopic);
