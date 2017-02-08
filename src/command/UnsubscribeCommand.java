@@ -14,7 +14,7 @@ public class UnsubscribeCommand extends Command {
 		// TODO Auto-generated method stub
 		type = PacketType.TYPE_UNSUBSCRIBE;
 		flag = PacketFlag.FLAG_UNSUBSCRIBE;
-		remainingLength = 0; // ¼öÁ¤ ¿ä¸Á
+		remainingLength = new byte[]{0}; // ¼öÁ¤ ¿ä¸Á
 	}
 
 	@Override

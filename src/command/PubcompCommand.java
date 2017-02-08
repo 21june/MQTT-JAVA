@@ -18,15 +18,14 @@ public class PubcompCommand extends Command {
 	public void init() {
 		type = PacketType.TYPE_PUBCOMP;
 		flag = PacketFlag.FLAG_PUBCOMP;
-		remainingLength = 2;
+		remainingLength = new byte[]{2};
 	}
 
 	@Override
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = new byte[] { typeFlag, remainingLength, msbIdentifier, lsbIdentifier };
-
+		byte[] mergeBytes = null;		
 		return mergeBytes;
 	}
 

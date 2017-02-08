@@ -14,7 +14,7 @@ public class SubackCommand extends Command {
 		// TODO Auto-generated method stub
 		type = PacketType.TYPE_SUBACK;
 		flag = PacketFlag.FLAG_SUBACK;
-		remainingLength = 0; // ¼öÁ¤ ¿ä¸Á
+		remainingLength = new byte[]{0}; // ¼öÁ¤ ¿ä¸Á
 	}
 
 	@Override

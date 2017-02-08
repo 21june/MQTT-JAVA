@@ -14,16 +14,16 @@ public class PingrespCommand extends Command {
 	public void init() {
 		type = PacketType.TYPE_PINGRESP;
 		flag = PacketFlag.FLAG_PINGRESP;
-		remainingLength = 0;
+		remainingLength = new byte[]{0};
 	}
 	
 	@Override
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = new byte[]{typeFlag, remainingLength};
-		
+		byte[] mergeBytes = null;		
 		return mergeBytes;
+
 	}
 	
 	@Override

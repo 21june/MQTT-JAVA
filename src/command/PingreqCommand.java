@@ -13,16 +13,16 @@ public class PingreqCommand extends Command {
 	public void init() {
 		type = PacketType.TYPE_PINGREQ;
 		flag = PacketFlag.FLAG_PINGREQ;
-		remainingLength = 0;
+		remainingLength = new byte[]{0};
 	}
 	
 	@Override
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = new byte[]{typeFlag, remainingLength};
-		
+		byte[] mergeBytes = null;		
 		return mergeBytes;
+
 	}
 	
 

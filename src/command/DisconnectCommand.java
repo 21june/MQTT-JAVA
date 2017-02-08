@@ -14,15 +14,14 @@ public class DisconnectCommand extends Command {
 	public void init() {
 		type = PacketType.TYPE_DISCONNECT;
 		flag = PacketFlag.FLAG_DISCONNECT;
-		remainingLength = 0;
+		remainingLength = null;
 	}
 	
 	@Override
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = new byte[]{typeFlag, remainingLength};
-		
+		byte[] mergeBytes = null;		
 		return mergeBytes;
 	}
 	@Override

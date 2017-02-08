@@ -15,7 +15,7 @@ public class PublishCommand extends Command {
 		// TODO Auto-generated method stub
 		type = PacketType.TYPE_PUBLISH;
 		flag = 0; // ¼öÁ¤ ¿ä¸Á
-		remainingLength = 0; // ¼öÁ¤ ¿ä¸Á
+		remainingLength = new byte[]{0}; // ¼öÁ¤ ¿ä¸Á
 	}
 
 	@Override

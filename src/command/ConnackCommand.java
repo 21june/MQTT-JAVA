@@ -32,6 +32,8 @@ public class ConnackCommand extends Command {
 		byte[] mergeBytes = null;
 		ByteBuffer target = ByteBuffer.wrap(mergeBytes);
 		target.put(typeFlag);
+		
+		return mergeBytes;
 	}
 	
 	@Override

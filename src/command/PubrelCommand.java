@@ -18,16 +18,16 @@ public class PubrelCommand extends Command {
 	public void init() {
 		type = PacketType.TYPE_PUBREL;
 		flag = PacketFlag.FLAG_PUBREL;
-		remainingLength = 2;
+		remainingLength = new byte[]{2};
 	}
 	
 	@Override
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = new byte[]{typeFlag, remainingLength, msbIdentifier, lsbIdentifier};
-		
+		byte[] mergeBytes = null;		
 		return mergeBytes;
+
 	}
 	
 	@Override

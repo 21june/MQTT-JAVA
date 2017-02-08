@@ -7,7 +7,7 @@ public abstract class Command {
 	// fixed header
 	byte type = PacketType.TYPE_CONNECT;
 	byte flag = PacketFlag.FLAG_CONNECT;
-	byte remainingLength[];	
+	byte[] remainingLength;	
 
 	/**
 	 * initializing variables.
