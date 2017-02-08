@@ -27,23 +27,27 @@ public class TCPClientConnection {
 
 	public void send(byte[] mergedBytes) {
 		try {
+			System.out.println("");
+			System.out.println("[서버로 CONNECT 메시지를 송신합니다.]");
 			socket.getOutputStream().write(mergedBytes);
 			socket.getOutputStream().flush();
-			System.out.println("[서버로 CONNECT 데이터를 송신했습니다.]");
+			System.out.println("**********송신 완료**********");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("");
 	}
 
-	public void read() {
+	public boolean read() {
 		try {
 			int receiveDataSize = 0;
 			byte[] commBuffer = new byte[4096];
 			byte[] receiveData;
 			receiveDataSize = socket.getInputStream().read(commBuffer);
-
+			
 			if (receiveDataSize != 0) {
+				System.out.println("[서버로부터 메시지를 수신합니다.]");
 				receiveData = new byte[receiveDataSize];
 
 				for (int j = 0; j < receiveDataSize; ++j) {
@@ -53,10 +57,14 @@ public class TCPClientConnection {
 					String s1 = String.format("%8s", Integer.toBinaryString(receiveData[i] & 0xFF)).replace(' ', '0');
 					System.out.print(s1 + " ");
 				}
+				System.out.println("");
+				System.out.println("**********수신 완료**********");
+				if(receiveData[0] == 32)
+					return true;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		return false;
 	}
 }
