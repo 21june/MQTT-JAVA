@@ -23,3 +23,4 @@ public class PacketType {
 	public static final byte TYPE_DISCONNECT = 14;
 	public static final byte TYPE_RESERVED_15 = 15;
 }
+        

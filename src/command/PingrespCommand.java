@@ -1,5 +1,7 @@
 package command;
 
+import java.nio.ByteBuffer;
+
 import constants.PacketFlag;
 import constants.PacketType;
 import util.ByteUtils;
@@ -21,9 +23,10 @@ public class PingrespCommand extends Command {
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = null;		
-		return mergeBytes;
-
+		byte[] mergeBytes = new byte[1 + 1 + remainingLength[0]];
+		ByteBuffer buffer = ByteBuffer.wrap(mergeBytes);
+		buffer.put(typeFlag).put(remainingLength);
+		return buffer.array();
 	}
 	
 	@Override

@@ -29,11 +29,12 @@ public class ConnackCommand extends Command {
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		byte typeFlag = ByteUtils.fixedHeaderCalc(type, flag);
-		byte[] mergeBytes = null;
-		ByteBuffer target = ByteBuffer.wrap(mergeBytes);
-		target.put(typeFlag);
-		
-		return mergeBytes;
+		byte[] mergeBytes = new byte[1 + 1 + ByteUtils.decodeRL(remainingLength)]; 
+		ByteBuffer buffer = ByteBuffer.wrap(mergeBytes);
+		// Fixed
+		buffer.put(typeFlag).put(remainingLength).put(acknowledgeFlags).put(returnCode);
+
+		return buffer.array();
 	}
 	
 	@Override

@@ -20,13 +20,13 @@ public class ConnectCommand extends Command {
 	byte[] protocolName = { 'M', 'Q', 'T', 'T' };
 	byte protocolLevel = 4;
 	byte connectFlag = 0;
-	byte msbKeepAlive = 0;
+	byte msbKeepAlive = 10;
 	byte lsbKeepAlive = 10;
 
 	// Payload
 	byte msbLengthforIdentifier = 0;
-	byte lsbLengthforIdentifier = 3;
-	byte identifier[] = {65, 66, 67};
+	byte lsbLengthforIdentifier = 8;
+	byte identifier[] = {65, 66, 67, 68, 65, 65, 65, 65};
 
 	byte msbLengthforWillTopic = 0;
 	byte lsbLengthforWillTopic = 0;

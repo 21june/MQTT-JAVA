@@ -2,6 +2,7 @@ package util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.BitSet;
 
 public class ByteUtils {
 	
@@ -96,6 +97,21 @@ public class ByteUtils {
 		 } while((encodedByte&128) != 0);
 		 
 		 return value;
+	}
+
+	/**
+	 * convert from byte to two 4-bit.
+	 * for parsing of type and flag in fixed header.
+	 * @param num to convert
+	 * @return result[0] : type
+	 * result[1] : flag
+	 */
+	public static final byte[] convertBytetoBits(byte num) {
+		byte[] result = new byte[2];
+		result[0] = (byte) ((num >> 4) & (byte) 0x0F);
+		result[1] = (byte) (num & 0x0F);
+		
+		return result;
 	}
  
 }
