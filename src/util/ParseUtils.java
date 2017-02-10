@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Arrays;
+
 import command.ConnectCommand;
 
 public class ParseUtils {
@@ -62,10 +64,35 @@ public class ParseUtils {
 	}
 	
 	private static ConnectCommand parseConnect(byte[] received) {
+		byte[] receive = received;
+		byte[] temp;
+		int count;
 		ConnectCommand result = new ConnectCommand();
-
-		
+		int lengthRL = getIntRL(receive);
+		result.setRemainingLength(Arrays.copyOfRange(receive, 1, lengthRL));
+		int remainingLength = ByteUtils.decodeRL(result.getRemainingLength());
+		// continuing
 		return result;
 	}
 
+	public static int getIntRL(byte[] received) {
+		byte[] temp = null;
+		int count = 1;
+		if(received.length > 5) {
+			temp = Arrays.copyOfRange(received, 1, 5);
+		} else {
+			temp = Arrays.copyOfRange(received, 1, received.length);
+		}
+	
+		for(int i=0; i<temp.length; i++) {
+			boolean bit7 = (temp[i] & (1 << 7)) != 0;
+			if(bit7)
+				count++;
+		}
+		
+		System.out.println("----- [Parse] getIntRL : " + count);
+		return count;
+	}
+	
+	
 }

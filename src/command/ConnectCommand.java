@@ -53,7 +53,7 @@ public class ConnectCommand extends Command {
 
 		for (int i = 0; i < flags.length; i++) {
 			flags[i] = (connectFlag & (1 << i)) != 0;
-		}
+		}	
 	}
 
 	/**
@@ -252,5 +252,12 @@ public class ConnectCommand extends Command {
 		this.flags = flags;
 		return this;
 	}
+
+	public ConnectCommand setIdentifier(byte[] identifier) {
+		this.identifier = identifier;
+		return this;
+	}
+	
+	
 
 }

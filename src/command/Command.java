@@ -26,4 +26,35 @@ public abstract class Command {
 	 * @param bytes receiving packet from client.
 	 */
 	abstract public void parse(byte[] bytes);
+
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+
+	public void setFlag(byte flag) {
+		this.flag = flag;
+	}
+
+
+	public void setRemainingLength(byte[] remainingLength) {
+		this.remainingLength = remainingLength;
+	}
+
+
+	public byte getType() {
+		return type;
+	}
+
+
+	public byte getFlag() {
+		return flag;
+	}
+
+
+	public byte[] getRemainingLength() {
+		return remainingLength;
+	}
+	
 }

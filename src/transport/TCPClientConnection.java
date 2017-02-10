@@ -3,6 +3,7 @@ package transport;
 import java.io.IOException;
 import java.net.Socket;
 
+import command.PubackCommand;
 import util.ByteUtils;
 import util.ParseUtils;
 
@@ -60,6 +61,7 @@ public class TCPClientConnection {
 					String s1 = String.format("%8s", Integer.toBinaryString(receiveData[i] & 0xFF)).replace(' ', '0');
 					System.out.print(s1 + " ");
 				}
+				
 				System.out.println("");
 				System.out.println("");
 

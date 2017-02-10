@@ -1,18 +1,20 @@
 import java.io.InputStream;
 
 import command.ConnectCommand;
+import command.PubackCommand;
 import command.SubscribeCommand;
 import constants.PacketFlag;
 import constants.PacketType;
 import transport.TCPClientConnection;
 import util.ByteUtils;
+import util.ParseUtils;
 
 public class main {
 	public static void main(String[] args) {
 		ConnectCommand c = new ConnectCommand();
 		c.init();
 		byte[] arr = c.merge();
-
+		
 		TCPClientConnection socket = new TCPClientConnection();
 		socket.start("test.mosquitto.org");
 		socket.send(arr);
@@ -31,5 +33,8 @@ public class main {
 			if(socket.read())
 				break;
 		}
+		
+		PubackCommand pc = new PubackCommand();
+		pc.init();
 	}
 }
