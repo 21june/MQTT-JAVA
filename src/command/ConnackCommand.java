@@ -43,6 +43,15 @@ public class ConnackCommand extends Command {
 		
 	}
 	
+	@Override
+	public void print() {
+		System.out.println("");
+		System.out.println("Type : " + type);
+		System.out.println("Flag : " + flag);
+		System.out.println("Acknowledge Flag : " + acknowledgeFlags);
+		System.out.println("Return Code : " + returnCode);
+	}
+	
 	/**
 	 * bit 7 ~ 1 : Reserved.
 	 * bit 0 : Session Present Flag.
@@ -67,5 +76,6 @@ public class ConnackCommand extends Command {
 	public void setReturnCode(byte returnCode) {
 		this.returnCode = returnCode;
 	}	
+	
 	
 }

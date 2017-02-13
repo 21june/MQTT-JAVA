@@ -3,15 +3,17 @@ package transport;
 import java.io.IOException;
 import java.net.Socket;
 
-import command.PubackCommand;
+import command.Command;
+import parse.Parse;
 import util.ByteUtils;
-import util.ParseUtils;
+import util.StringUtils;
 
 public class TCPClientConnection {
 
 	public Socket socket = null;
-
+	public Parse p = null;
 	public void start(String serverIP) {
+		p = new Parse();
 		try {
 			socket = new Socket(serverIP, 1883);
 		} catch (IOException e) {
@@ -23,15 +25,14 @@ public class TCPClientConnection {
 		try {
 
 			ByteUtils.convertBytetoBits(sendData[0]);
-			ParseUtils.parse(sendData);
+
+			p.parse(sendData);
+			
 			System.out.println(" ----¡æ Sending...");
 			socket.getOutputStream().write(sendData);
 			socket.getOutputStream().flush();
 
-			for (int i = 0; i < sendData.length; i++) {
-				String s1 = String.format("%8s", Integer.toBinaryString(sendData[i] & 0xFF)).replace(' ', '0');
-				System.out.print(s1 + " ");
-			}
+			StringUtils.printByteArray(sendData);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -39,7 +40,6 @@ public class TCPClientConnection {
 		}
 		System.out.println("");
 		System.out.println("");
-
 	}
 
 	public boolean read() {
@@ -55,12 +55,12 @@ public class TCPClientConnection {
 				for (int j = 0; j < receiveDataSize; ++j) {
 					receiveData[j] = commBuffer[j];
 				}
-				ParseUtils.parse(receiveData);
+				Command c = p.parse(receiveData);
+				if(c != null)
+					c.print();
 				System.out.println(" ¡ç---- Receiving...");
-				for (int i = 0; i < receiveData.length; i++) {
-					String s1 = String.format("%8s", Integer.toBinaryString(receiveData[i] & 0xFF)).replace(' ', '0');
-					System.out.print(s1 + " ");
-				}
+
+				StringUtils.printByteArray(receiveData);
 				
 				System.out.println("");
 				System.out.println("");

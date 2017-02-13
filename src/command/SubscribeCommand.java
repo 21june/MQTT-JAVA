@@ -13,13 +13,12 @@ import util.ByteUtils;
 public class SubscribeCommand extends Command {
 	// Variables
 	byte msbLengthforPacketIdentifier = 0;
-	byte lsbLengthforPacketIdentifier = 10;
+	byte lsbLengthforPacketIdentifier = 81;
 	
 	// Payload
-	// "temp/random"
 	byte msbLengthforTopic = 0;
-	byte lsbLengthforTopic = 11;
-	byte[] topicFilter = {'t', 'e', 'm', 'p', '/', 'r', 'a', 'n', 'd', 'o', 'm'};
+	byte lsbLengthforTopic = (byte) "temp/random".length();
+	byte[] topicFilter = "temp/random".getBytes();
 	byte qos = 0;
 	
 	@Override
@@ -43,7 +42,7 @@ public class SubscribeCommand extends Command {
 	public byte[] merge() {
 		// TODO Auto-generated method stub
 		remainingLength = ByteUtils.encodeRL(getIntRL());
-		int lengthRL = ByteUtils.lengthRLArray(getIntRL());
+		int lengthRL = ByteUtils.getArrayLenRL(getIntRL());
 		byte[] mergedBytes = new byte[1 + lengthRL + getIntRL()];
 
 		ByteBuffer buffer = ByteBuffer.wrap(mergedBytes);

@@ -51,4 +51,12 @@ public class StringUtils {
 		return utf8Bytes;
 	}
 	
+	public static void printByteArray(byte[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			String s1 = String.format("%8s", Integer.toBinaryString(arr[i] & 0xFF)).replace(' ', '0');
+			System.out.println("[ " + s1 + " ] ---- " + (arr[i] & 0xFF) + " 	Byte " + (i+1));
+		}
+	}
+	
 }
+  

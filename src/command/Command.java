@@ -20,13 +20,10 @@ public abstract class Command {
 	 * @return byte array for sending to server.
 	 */
 	abstract public byte[] merge();
-	
-	/**
-	 * parsing byte array from client.
-	 * @param bytes receiving packet from client.
-	 */
 	abstract public void parse(byte[] bytes);
-
+	public void print() {
+		
+	}
 
 	public void setType(byte type) {
 		this.type = type;
