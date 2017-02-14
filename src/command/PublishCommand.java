@@ -11,6 +11,11 @@ import util.ByteUtils;
  */
 public class PublishCommand extends Command {
 
+	// Fixed Header
+	boolean dupFlag = false;
+	boolean[] qos = {false, false};
+	boolean retain = false;
+	
 	// Variable Header
 	private byte msbLengthforTopic = 0;
 	private byte lsbLengthforTopic = 3;
@@ -102,12 +107,13 @@ public class PublishCommand extends Command {
 	}
 	
 	@Override
-	public void print() {
+	public void print() {		
+		System.out.println("");
 		System.out.println("Type : " + type);
 		System.out.println("Flag : " + flag);
 		System.out.println("Topic Name Length : " + ByteUtils.calcLengthMSBtoLSB(msbLengthforTopic, lsbLengthforTopic));
 		System.out.println("Topic Name : " + new String(topicName));
-		System.out.println("Packet ID : " + ByteUtils.calcLengthMSBtoLSB(msbLengthforPacketID, lsbLengthforPacketID));
+		System.out.println("Packet ID  : " + ByteUtils.calcLengthMSBtoLSB(msbLengthforPacketID, lsbLengthforPacketID));
 		System.out.println("Payload Length: " + payload.length);
 		System.out.println("Payload : " + new String(payload));
 	}

@@ -26,8 +26,8 @@ public class TCPClientConnection {
 
 			ByteUtils.convertBytetoBits(sendData[0]);
 
-			p.parse(sendData);
-			
+			Command c = p.parse(sendData);
+			c.print();
 			System.out.println(" ----¡æ Sending...");
 			socket.getOutputStream().write(sendData);
 			socket.getOutputStream().flush();

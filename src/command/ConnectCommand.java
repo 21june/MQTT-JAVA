@@ -55,39 +55,6 @@ public class ConnectCommand extends Command {
 		flags = ParseUtils.getFlags(connectFlag);
 	}
 
-	/**
-	 * get integer RL. using this, convert to byte array RL.
-	 * 
-	 * @return Integer Remaining Length.
-	 */
-	public int getIntValueRL() {
-		int temp = 0;
-		// Variable Length
-		temp = 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforProtocolName, lsbLengthforProtocolName); // Protocol Name MSB, LSB(2 bytes) + protocol name (? bytes)
-
-		temp += 1; // Protocol Level (1 byte)
-		temp += 1; // Connect Flags (1 byte)
-		temp += 2; // Keep Alive MSB, LSB (2 bytes)
-
-		// Payload Length
-		temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforIdentifier, lsbLengthforIdentifier); // Client Identifier MSB, LSB(2 bytes) + identifier (? bytes)
-
-		if (flags[2]) { // if Will Flag set 1
-			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforWillTopic, lsbLengthforWillTopic);
-			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforWillMessage, lsbLengthforWillMessage);
-		}
-
-		if (flags[7]) { // if User Name Flag set 1
-			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforUserName, lsbLengthforUserName);
-		}
-
-		if (flags[6]) { // if Password Flag set 1
-			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforPassword, lsbLengthforPassword);
-		}
-
-		return temp;
-	}
-
 	@Override
 	public byte[] merge() {
 		// TODO Auto-generated method stub
@@ -139,7 +106,42 @@ public class ConnectCommand extends Command {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/**
+	 * Remaining Length
+	 * 
+	 * get integer RL. using this, convert to byte array RL.
+	 * 
+	 * @return Integer Remaining Length.
+	 */
+	public int getIntValueRL() {
+		int temp = 0;
+		// Variable Length
+		temp = 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforProtocolName, lsbLengthforProtocolName); // Protocol Name MSB, LSB(2 bytes) + protocol name (? bytes)
 
+		temp += 1; // Protocol Level (1 byte)
+		temp += 1; // Connect Flags (1 byte)
+		temp += 2; // Keep Alive MSB, LSB (2 bytes)
+
+		// Payload Length
+		temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforIdentifier, lsbLengthforIdentifier); // Client Identifier MSB, LSB(2 bytes) + identifier (? bytes)
+
+		if (flags[2]) { // if Will Flag set 1
+			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforWillTopic, lsbLengthforWillTopic);
+			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforWillMessage, lsbLengthforWillMessage);
+		}
+
+		if (flags[7]) { // if User Name Flag set 1
+			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforUserName, lsbLengthforUserName);
+		}
+
+		if (flags[6]) { // if Password Flag set 1
+			temp += 2 + ByteUtils.calcLengthMSBtoLSB(msbLengthforPassword, lsbLengthforPassword);
+		}
+
+		return temp;
+	}
+	
 	/**
 	 * Getter & Setter Functions
 	 */
@@ -353,6 +355,7 @@ public class ConnectCommand extends Command {
 
 	@Override
 	public void print() {
+		System.out.println("");
 		System.out.println("Type : " + type);
 		System.out.println("Flag : " + flag);
 		System.out.println("Protocol Name : " + new String(protocolName));

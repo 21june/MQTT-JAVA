@@ -4,7 +4,9 @@ import command.Command;
 import command.ConnectCommand;
 import command.PubackCommand;
 import command.PublishCommand;
+import command.SubackCommand;
 import command.SubscribeCommand;
+import command.UnsubscribeCommand;
 import constants.PacketFlag;
 import constants.PacketType;
 import parse.Parse;
@@ -14,12 +16,19 @@ import util.ParseUtils;
 
 public class main {
 	public static void main(String[] args) {
+		
+		UnsubscribeCommand uc = new UnsubscribeCommand();
+		uc.init();
+
+		byte[] arr = uc.merge();
+		Parse p = new Parse();
+		UnsubscribeCommand temp = (UnsubscribeCommand) p.parse(arr);
+		temp.print();
+		/*
 		Command c = new ConnectCommand();
 		Parse p = new Parse();
 		c.init();
 		byte[] arr = c.merge();
-//		Command tempC = p.parse(arr);
-//		tempC.print();
 		
 		TCPClientConnection socket = new TCPClientConnection();
 		socket.start("test.mosquitto.org");
@@ -40,6 +49,6 @@ public class main {
 			if(socket.read())
 				break;
 		}
-
+		*/
 	}
 }
