@@ -40,4 +40,18 @@ public class UnsubackCommand extends Command {
 		
 	}
 
+	/**
+	 * Getter Setter
+	 */
+	
+	public void setMsbPacketIdentifier(byte msbPacketIdentifier) {
+		this.msbPacketIdentifier = msbPacketIdentifier;
+	}
+
+	public void setLsbPacketIdentifier(byte lsbPacketIdentifier) {
+		this.lsbPacketIdentifier = lsbPacketIdentifier;
+	}
+
+	
+	
 }

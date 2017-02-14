@@ -39,4 +39,19 @@ public class PubrecCommand extends Command {
 		
 	}
 
+	/**
+	 * Getter Setter
+	 */
+	
+	public void setMsbPakcetIdentifier(byte msbPakcetIdentifier) {
+		this.msbPakcetIdentifier = msbPakcetIdentifier;
+	}
+
+	public void setLsbPacketIdentifier(byte lsbPacketIdentifier) {
+		this.lsbPacketIdentifier = lsbPacketIdentifier;
+	}
+
+
+
+	
 }

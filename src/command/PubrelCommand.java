@@ -39,4 +39,18 @@ public class PubrelCommand extends Command {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/**
+	 * Getter Setter
+	 */
+	
+	public void setMsbPacketIdentifier(byte msbPacketIdentifier) {
+		this.msbPacketIdentifier = msbPacketIdentifier;
+	}
+
+	public void setLsbPacketIdentifier(byte lsbPacketIdentifier) {
+		this.lsbPacketIdentifier = lsbPacketIdentifier;
+	}
+	
+	
 }

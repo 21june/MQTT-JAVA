@@ -6,9 +6,17 @@ import java.util.Arrays;
 import command.Command;
 import command.ConnackCommand;
 import command.ConnectCommand;
+import command.DisconnectCommand;
+import command.PingreqCommand;
+import command.PingrespCommand;
+import command.PubackCommand;
+import command.PubcompCommand;
 import command.PublishCommand;
+import command.PubrecCommand;
+import command.PubrelCommand;
 import command.SubackCommand;
 import command.SubscribeCommand;
+import command.UnsubackCommand;
 import command.UnsubscribeCommand;
 import constants.PacketFlag;
 import util.BoolUtils;
@@ -66,21 +74,41 @@ public class Parse {
 		case 4: // PUBACK
 			if (flag == PacketFlag.FLAG_PUBACK) {
 				System.out.print("---{PUBACK MESSAGE}---           ");
+				parsedCom = new PubackCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parsePuback(parsedCom, received);
 			}
 			break;
 		case 5: // PUBREC
 			if (flag == PacketFlag.FLAG_PUBREC) {
 				System.out.print("---{PUBREC MESSAGE}---           ");
+				parsedCom = new PubrecCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parsePubrec(parsedCom, received);
 			}
 			break;
 		case 6: // PUBREL
 			if (flag == PacketFlag.FLAG_PUBREL) {
 				System.out.print("---{PUBREL MESSAGE}---           ");
+				parsedCom = new PubrelCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parsePubrel(parsedCom, received);
 			}
 			break;
 		case 7: // PUBCOMP
 			if (flag == PacketFlag.FLAG_PUBCOMP) {
 				System.out.print("---{PUBCOMP MESSAGE}---          ");
+				parsedCom = new PubcompCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parsePubcomp(parsedCom, received);
 			}
 			break;
 		case 8: // SUBSCRIBE
@@ -116,21 +144,41 @@ public class Parse {
 		case 11: // UNSUBACK
 			if (flag == PacketFlag.FLAG_UNSUBACK) {
 				System.out.print("---{UNSUBACK MESSAGE}---         ");
+				parsedCom = new UnsubackCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parseUnsuback(parsedCom, received);
 			}
 			break;
 		case 12: // PINGREQ
 			if (flag == PacketFlag.FLAG_PINGREQ) {
 				System.out.print("---{PINGREQ MESSAGE}---          ");
+				parsedCom = new PingreqCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parsePingreq(parsedCom, received);
 			}
 			break;
 		case 13: // PINGRESP
 			if (flag == PacketFlag.FLAG_PINGRESP) {
 				System.out.print("---{PINGRESP MESSAGE}---         ");
+				parsedCom = new PingrespCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parsePingresp(parsedCom, received);
 			}
 			break;
 		case 14: // DISCONNECT
 			if (flag == PacketFlag.FLAG_DISCONNECT) {
 				System.out.print("---{DISCONNECT MESSAGE}---       ");
+				parsedCom = new DisconnectCommand();
+				parsedCom.init();
+				parsedCom.setType(type);
+				parsedCom.setFlag(flag);
+				parseDisconnect(parsedCom, received);
 			}
 			break;
 		case 0:
@@ -320,7 +368,7 @@ public class Parse {
 		// Setting
 		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
 		// Update receivedTemp (to throw away the parsed header)
-		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length + 1);
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length);
 
 		/**
 		 * Connect Acknowledge Flags (1 byte Value)
@@ -328,7 +376,7 @@ public class Parse {
 		// Setting
 		temp.setAcknowledgeFlags(receivedTemp[0]);
 		// Update
-		receivedTemp = Arrays.copyOfRange(receivedTemp, 1, receivedTemp.length + 1);
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 1, receivedTemp.length);
 
 		/**
 		 * Connect Return Code (1 byte Value)
@@ -385,6 +433,93 @@ public class Parse {
 		return temp;
 	}
 
+	private Command parsePuback(Command c, byte[] received) {
+		PubackCommand temp = (PubackCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+		// Update receivedTemp (to throw away the parsed header)
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length);
+		/**
+		 * Packet ID (MSB, LSB)
+		 */
+		// Setting
+		temp.setMsbIdentifier(receivedTemp[0]);
+		temp.setLsbIdentifier(receivedTemp[1]);
+		
+		return temp;
+	}
+	
+	private Command parsePubrec(Command c, byte[] received) {
+		PubrecCommand temp = (PubrecCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+		// Update receivedTemp (to throw away the parsed header)
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length);
+		
+		/**
+		 * Packet ID (MSB, LSB)
+		 */
+		// Setting
+		temp.setMsbPakcetIdentifier(receivedTemp[0]);
+		temp.setLsbPacketIdentifier(receivedTemp[1]);
+		
+		return temp;
+	}
+	
+	private Command parsePubrel(Command c, byte[] received) {
+		PubrelCommand temp = (PubrelCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+		// Update receivedTemp (to throw away the parsed header)
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length);
+		
+		/**
+		 * Packet ID (MSB, LSB)
+		 */
+		// Setting
+		temp.setMsbPacketIdentifier(receivedTemp[0]);
+		temp.setLsbPacketIdentifier(receivedTemp[1]);
+		
+		return temp;
+	}
+	
+	private Command parsePubcomp(Command c, byte[] received) {
+		PubcompCommand temp = (PubcompCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+		// Update receivedTemp (to throw away the parsed header)
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length);
+		
+		/**
+		 * Packet ID (MSB, LSB)
+		 */
+		// Setting
+		temp.setMsbPacketIdentifier(receivedTemp[0]);
+		temp.setLsbPacketIdentifier(receivedTemp[1]);
+		
+		return temp;
+	}
+	
 	private Command parseSubscribe(Command c, byte[] received) {
 		SubscribeCommand temp = (SubscribeCommand) c;
 		byte[] receivedTemp = received;
@@ -510,6 +645,67 @@ public class Parse {
 		return temp;
 	}
 
+	private Command parseUnsuback(Command c, byte[] received) {
+		UnsubackCommand temp = (UnsubackCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+		// Update receivedTemp (to throw away the parsed header)
+		receivedTemp = Arrays.copyOfRange(receivedTemp, 2, receivedTemp.length);
+		
+		/**
+		 * Packet ID (MSB, LSB)
+		 */
+		// Setting
+		temp.setMsbPacketIdentifier(receivedTemp[0]);
+		temp.setLsbPacketIdentifier(receivedTemp[1]);
+		
+		return temp;
+	}
+	
+	private Command parsePingreq(Command c, byte[] received) {
+		PingreqCommand temp = (PingreqCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+
+		return temp;
+	}
+	
+	private Command parsePingresp(Command c, byte[] received) {
+		PingrespCommand temp = (PingrespCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+
+		return temp;
+	}
+	
+	private Command parseDisconnect(Command c, byte[] received) {
+		DisconnectCommand temp = (DisconnectCommand) c;
+		byte[] receivedTemp = received;
+		
+		/**
+		 * Remaining Length (Value)
+		 */
+		// Setting
+		temp.setRemainingLength(new byte[] { receivedTemp[1] }); // fixed
+
+		return temp;
+	}
+	
 	private Command updateRemainingLength(Command temp, byte[] receivedTemp) {
 		/**
 		 * Remaining Length (Value)
