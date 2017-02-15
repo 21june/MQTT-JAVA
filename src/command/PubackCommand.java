@@ -36,12 +36,6 @@ public class PubackCommand extends Command {
 		return buffer.array();
 	}
 
-	@Override
-	public void parse(byte[] bytes) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setMsbIdentifier(byte msbIdentifier) {
 		this.msbIdentifier = msbIdentifier;
 	}

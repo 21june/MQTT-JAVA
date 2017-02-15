@@ -76,12 +76,6 @@ public class PublishCommand extends Command {
 		return temp;
 	}
 	
-	@Override
-	public void parse(byte[] bytes) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setMsbLengthforTopic(byte msbLengthforTopic) {
 		this.msbLengthforTopic = msbLengthforTopic;
 	}

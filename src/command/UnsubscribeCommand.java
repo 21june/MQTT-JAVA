@@ -75,13 +75,6 @@ public class UnsubscribeCommand extends Command {
 		return buffer.array();
 	}
 
-	
-	@Override
-	public void parse(byte[] bytes) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**
 	 * Remaining Length
 	 * 

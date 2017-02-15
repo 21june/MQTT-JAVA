@@ -28,12 +28,6 @@ public class DisconnectCommand extends Command {
 		buffer.put(typeFlag).put(remainingLength);
 		return buffer.array();
 	}
-	@Override
-	public void parse(byte[] bytes) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 	
 }

@@ -20,7 +20,7 @@ public abstract class Command {
 	 * @return byte array for sending to server.
 	 */
 	abstract public byte[] merge();
-	abstract public void parse(byte[] bytes);
+	
 	public void print() {
 		
 	}

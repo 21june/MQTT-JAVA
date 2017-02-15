@@ -38,12 +38,6 @@ public class ConnackCommand extends Command {
 	}
 	
 	@Override
-	public void parse(byte[] bytes) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public void print() {
 		System.out.println("");
 		System.out.println("Type : " + type);

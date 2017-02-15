@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import command.Command;
+import constants.PacketType;
 import parse.Parse;
 import util.ByteUtils;
 import util.StringUtils;
@@ -21,6 +22,62 @@ public class TCPClientConnection {
 		}
 	}
 
+	public void subscribe(byte[] connectCommand) {
+		try {
+			Command c = p.parse(connectCommand);
+			c.print();
+			System.out.println(" ---¡æ Subscribing...");
+			System.out.println("");
+			socket.getOutputStream().write(connectCommand);
+			socket.getOutputStream().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void connect(byte[] connectCommand) {
+		try {
+			Command c = p.parse(connectCommand);
+			c.print();
+			System.out.println(" ---¡æ Connecting...");
+			System.out.println("");
+			socket.getOutputStream().write(connectCommand);
+			socket.getOutputStream().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void readConnack() {
+		try {
+			int receiveDataSize = 0;
+			byte[] commBuffer = new byte[4096];
+			byte[] receiveData;
+			receiveDataSize = socket.getInputStream().read(commBuffer);
+			
+			System.out.println("*** Waiting Connack Message from Broker...");
+			
+			while(true) {
+				if(receiveDataSize == 0) continue;
+				receiveData = new byte[receiveDataSize];
+				for(int j=0; j<receiveDataSize; j++)
+					receiveData[j] = commBuffer[j];
+				Command c = p.parse(receiveData);
+				if(c == null) continue;
+				if(c.getType() == PacketType.TYPE_CONNACK) {
+					c.print();
+					System.out.println("¡ç--- Receiving Connack");
+				}
+				System.out.println("");
+				System.out.println("");		
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	public void send(byte[] sendData) {
 		try {
 
