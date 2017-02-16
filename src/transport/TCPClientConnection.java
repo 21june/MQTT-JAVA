@@ -69,6 +69,8 @@ public class TCPClientConnection {
 					System.out.println("ก็--- Receiving Connack");
 				}
 				System.out.println("");
+				System.out.println(">>>>>>>>> Connect Complete");
+				System.out.println("");
 				System.out.println("");		
 				break;
 			}
@@ -76,7 +78,99 @@ public class TCPClientConnection {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void readUnsuback() {
+		try {
+			int receiveDataSize = 0;
+			byte[] commBuffer = new byte[4096];
+			byte[] receiveData;
+			receiveDataSize = socket.getInputStream().read(commBuffer);
+			
+			System.out.println("*** Waiting Unsuback Message from Broker...");
+			
+			while(true) {
+				if(receiveDataSize == 0) continue;
+				receiveData = new byte[receiveDataSize];
+				for(int j=0; j<receiveDataSize; j++)
+					receiveData[j] = commBuffer[j];
+				Command c = p.parse(receiveData);
+				if(c == null) continue;
+				if(c.getType() == PacketType.TYPE_UNSUBACK) {
+					c.print();
+					System.out.println("ก็--- Receiving Unsuback");
+				}
+				System.out.println("");
+				System.out.println(">>>>>>>>> Unsubscribe Complete!");
+				System.out.println("");
+				System.out.println("");		
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void readSuback() {
+		try {
+			int receiveDataSize = 0;
+			byte[] commBuffer = new byte[4096];
+			byte[] receiveData;
+			receiveDataSize = socket.getInputStream().read(commBuffer);
+			
+			System.out.println("*** Waiting Suback Message from Broker...");
+			
+			while(true) {
+				if(receiveDataSize == 0) continue;
+				receiveData = new byte[receiveDataSize];
+				for(int j=0; j<receiveDataSize; j++)
+					receiveData[j] = commBuffer[j];
+				Command c = p.parse(receiveData);
+				if(c == null) continue;
+				if(c.getType() == PacketType.TYPE_SUBACK) {
+					c.print();
+					System.out.println("ก็--- Receiving Suback");
+				}
+				System.out.println("");
+				System.out.println(">>>>>>>>> Subscribe Complete!");
+				System.out.println("");
+				System.out.println("");		
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void readPuback() {
+		try {
+			int receiveDataSize = 0;
+			byte[] commBuffer = new byte[4096];
+			byte[] receiveData;
+			receiveDataSize = socket.getInputStream().read(commBuffer);
+			
+			System.out.println("*** Waiting Puback Message from Broker...");
+			
+			while(true) {
+				if(receiveDataSize == 0) continue;
+				receiveData = new byte[receiveDataSize];
+				for(int j=0; j<receiveDataSize; j++)
+					receiveData[j] = commBuffer[j];
+				Command c = p.parse(receiveData);
+				if(c == null) continue;
+				if(c.getType() == PacketType.TYPE_PUBACK) {
+					c.print();
+					System.out.println("ก็--- Receiving Puback");
+				}
+				System.out.println("");
+				System.out.println(">>>>>>>>> Publish Complete!");
+				System.out.println("");
+				System.out.println("");		
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void send(byte[] sendData) {
 		try {

@@ -2,7 +2,9 @@ package command;
 
 import java.nio.ByteBuffer;
 import constants.PacketType;
+import util.BoolUtils;
 import util.ByteUtils;
+import util.StringUtils;
 
 /**
  * PUBLISH COMMAND
@@ -98,6 +100,60 @@ public class PublishCommand extends Command {
 
 	public void setPayload(byte[] payload) {
 		this.payload = payload;
+	}
+	
+	public void setDup(boolean bool) {
+		dupFlag = bool;
+		updateFlags();
+	}
+	
+	public void setQoS(boolean[] bool) {
+		qos = bool;
+		updateFlags();
+	}
+	
+	public void setRetain(boolean bool) {
+		retain = bool;
+		updateFlags();
+	}
+	
+	public byte getQoS() {
+		return BoolUtils.getQoS(qos);
+	}
+	public void updateFlags() {
+		byte temp = 0;
+		if(dupFlag) 
+			temp += 1;
+		byte _QoS = BoolUtils.getQoS(qos);
+		
+		if(_QoS == 1)
+			temp += 2;
+		else if(_QoS == 2)
+			temp += 4;
+		
+		if(retain) 
+			temp += 8;
+			
+		flag = temp;
+	}
+	
+	public void setCustomTopicName(String topic) {
+		byte[] topicName = StringUtils.getUTF8BytesFromString(topic);
+		byte[] _MSBLSB = ByteUtils.getMsbLsb(topicName.length);
+		setTopicName(topicName);
+		setMsbLengthforTopic(_MSBLSB[0]);
+		setLsbLengthforTopic(_MSBLSB[1]);
+	}
+
+	public void setCustomPacketID(int ID) {
+		byte[] _MSBLSB = ByteUtils.getMsbLsb(ID);
+		setMsbLengthforPacketID(_MSBLSB[0]);
+		setLsbLengthforPacketID(_MSBLSB[1]);
+	}
+
+	public void setCustomPayload(String payload) {
+		byte[] _payload = StringUtils.getUTF8BytesFromString(payload);
+		setPayload(_payload);
 	}
 	
 	@Override

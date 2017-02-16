@@ -9,6 +9,7 @@ import constants.PacketType;
 import util.BoolUtils;
 import util.ByteUtils;
 import util.ParseUtils;
+import util.StringUtils;
 
 /**
  * SUBSCRIBE COMMAND
@@ -131,6 +132,33 @@ public class SubscribeCommand extends Command {
 
 	public void setPayload(byte[] payload) {
 		this.payload = payload;
+	}
+	
+	public void setCustomPacketID(int ID) {
+		byte[] _MSBLSB = ByteUtils.getMsbLsb(ID);
+		setMsbLengthforPacketID(_MSBLSB[0]);
+		setLsbLengthforPacketID(_MSBLSB[1]);
+	}
+	
+	public void setCustomTopicFilter(String[] topics, int[] qos) {
+		int length = topics.length;
+		ArrayList<Byte> _msb = new ArrayList<Byte>();
+		ArrayList<Byte> _lsb = new ArrayList<Byte>();
+		ArrayList<Byte[]> _topicfilter = new ArrayList<Byte[]>();
+		ArrayList<Byte> _qos = new ArrayList<Byte>();
+	
+		for(int i=0; i<length; i++) {
+			byte[] bTopicName = StringUtils.getUTF8BytesFromString(topics[i]);
+			byte[] bMSBLSB = ByteUtils.getMsbLsb(topics[i].length());
+			_msb.add(bMSBLSB[0]);
+			_lsb.add(bMSBLSB[1]);
+			_topicfilter.add(ByteUtils.toObjects(bTopicName));
+			_qos.add((byte)qos[i]);
+		}
+		setMsbLengthforTopic(_msb);
+		setLsbLengthforTopic(_lsb);
+		setTopicFilter(_topicfilter);
+		setQos(_qos);
 	}
 
 	@Override

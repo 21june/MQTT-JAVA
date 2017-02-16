@@ -15,4 +15,24 @@ public class BoolUtils {
 		}
 		return _qos;
 	}
+	
+	public static boolean[] getBoolQoS(byte qos) {
+		boolean[] _qos = new boolean[2];
+		
+		if(qos == 0) {
+			_qos[0] = false;
+			_qos[1] = false;
+		} else if(qos == 1) {
+			_qos[0] = true;
+			_qos[1] = false;
+		} else if(qos == 2) {
+			_qos[0] = false;
+			_qos[1] = true;
+		} else {
+			_qos[0] = true;
+			_qos[1] = true;
+		}
+		
+		return _qos;
+	}
 }

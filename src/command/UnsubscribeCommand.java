@@ -1,4 +1,4 @@
-package command;
+  package command;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.Arrays;
 import constants.PacketFlag;
 import constants.PacketType;
 import util.ByteUtils;
+import util.StringUtils;
 /**
  * UNSUBSCRIBE COMMAND
  * @author JUNE-HOME
@@ -139,6 +140,28 @@ public class UnsubscribeCommand extends Command {
 		return topicFilter;
 	}
 	
+	public void setCustomPacketID(int ID) {
+		byte[] _MSBLSB = ByteUtils.getMsbLsb(ID);
+		setMsbLengthforPacketID(_MSBLSB[0]);
+		setLsbLengthforPacketID(_MSBLSB[1]);
+	}
+	
+	public void setCustomTopicFilter(String[] topics) {
+		int length = topics.length;
+		ArrayList<Byte> _msb = new ArrayList<Byte>();
+		ArrayList<Byte> _lsb = new ArrayList<Byte>();
+		ArrayList<Byte[]> _topicfilter = new ArrayList<Byte[]>();
+		for(int i=0; i<length; i++) {
+			byte[] bTopicName = StringUtils.getUTF8BytesFromString(topics[i]);
+			byte[] bMSBLSB = ByteUtils.getMsbLsb(topics[i].length());
+			_msb.add(bMSBLSB[0]);
+			_lsb.add(bMSBLSB[1]);
+			_topicfilter.add(ByteUtils.toObjects(bTopicName));
+		}
+		setMsbLengthforTopic(_msb);
+		setLsbLengthforTopic(_lsb);
+		setTopicFilter(_topicfilter);
+	}
 	
 	@Override
 	public void print() {	

@@ -143,4 +143,11 @@ public class ByteUtils {
 	    return bytes;
 	}
 
+	public static byte[] getMsbLsb(int length) {
+		byte[] result = new byte[2];
+		result[0] = (byte) ((length >> 8) & 0xff);
+		result[1] = (byte) (length & 0xff);
+		return result;
+	}
+	
 }
