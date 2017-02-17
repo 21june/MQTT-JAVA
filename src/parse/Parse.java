@@ -185,6 +185,7 @@ public class Parse {
 		case 15: // RESERVED
 		default:
 			System.out.println("존재하지 않는 Type입니다.");
+			parsedCom = null;
 			break;
 		}
 

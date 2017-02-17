@@ -100,7 +100,7 @@ public class PublishCommand extends Command {
 
 	public void setPayload(byte[] payload) {
 		this.payload = payload;
-	}
+	}	
 	
 	public void setDup(boolean bool) {
 		dupFlag = bool;
@@ -117,6 +117,12 @@ public class PublishCommand extends Command {
 		updateFlags();
 	}
 	
+	
+	
+	public byte[] getTopicName() {
+		return topicName;
+	}
+
 	public byte getQoS() {
 		return BoolUtils.getQoS(qos);
 	}
@@ -156,6 +162,11 @@ public class PublishCommand extends Command {
 		setPayload(_payload);
 	}
 	
+	
+	public byte[] getPayload() {
+		return payload;
+	}
+
 	@Override
 	public void print() {		
 		System.out.println("");
