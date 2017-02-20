@@ -346,6 +346,8 @@ public class ConnectCommand extends Command {
 	public boolean[] getFlags() {
 		return flags;
 	}
+	
+	
 
 	@Override
 	public void print() {

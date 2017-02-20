@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import command.Command;
@@ -47,7 +48,40 @@ public class main extends JFrame {
 	JButton b4 = new JButton("Disconnect");
 
 	main() {
-		display();
+		
+		JPanel jp = new JPanel();
+		JButton jb1 = new JButton("Client");
+		JButton jb2 = new JButton("Broker");
+		
+		jp.setLayout(new FlowLayout());
+		setSize(400, 100);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		jp.add(jb1);
+		jp.add(jb2);
+		
+		add(jp);
+		
+		jb1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				displayClient();
+				jp.removeAll();
+			}
+		});
+		
+		jb2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				displayBroker();
+			}
+		});
+		
 	}
 
 	public static main mf;
@@ -247,7 +281,7 @@ public class main extends JFrame {
 		socket.send(temp);
 	}
 
-	public void display() {
+	public void displayClient() {
 		JTextField field1 = new JTextField("192.168.0.77");
 		JPanel panel = new JPanel(new GridLayout(0, 1));
 		panel.add(new JLabel("Address (Port:1883 TCP):"));
@@ -278,6 +312,15 @@ public class main extends JFrame {
 			
 		} else {
 			System.out.println("Cancelled");
+		}
+	}
+	
+	public void displayBroker() {
+		JPanel panel = new JPanel(new GridLayout(0, 1));
+		panel.add(new JLabel("Brokering..."));
+		int result = JOptionPane.showConfirmDialog(null, panel, "Broker", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE);
+		if (result == JOptionPane.OK_OPTION) {
+		} else {
 		}
 	}
 	
@@ -334,7 +377,7 @@ public class main extends JFrame {
 		JPanel panel = new JPanel(new GridLayout(0, 1));
 		panel.add(new JLabel("Contents:"));
 		panel.add(field1);
-		int result = JOptionPane.showConfirmDialog(null, panel, "Publish", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(null, panel, "Publish", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION) {
 		} else {
 			System.out.println("Cancelled");

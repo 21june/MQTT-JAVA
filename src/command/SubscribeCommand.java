@@ -140,6 +140,32 @@ public class SubscribeCommand extends Command {
 		setLsbLengthforPacketID(_MSBLSB[1]);
 	}
 	
+	
+	
+	public byte getMsbLengthforPacketID() {
+		return msbLengthforPacketID;
+	}
+
+	public byte getLsbLengthforPacketID() {
+		return lsbLengthforPacketID;
+	}
+
+	public ArrayList<Byte> getMsbLengthforTopic() {
+		return msbLengthforTopic;
+	}
+
+	public ArrayList<Byte> getLsbLengthforTopic() {
+		return lsbLengthforTopic;
+	}
+
+	public ArrayList<Byte[]> getTopicFilter() {
+		return topicFilter;
+	}
+
+	public ArrayList<Byte> getQos() {
+		return qos;
+	}
+
 	public void setCustomTopicFilter(String[] topics, int[] qos) {
 		int length = topics.length;
 		ArrayList<Byte> _msb = new ArrayList<Byte>();

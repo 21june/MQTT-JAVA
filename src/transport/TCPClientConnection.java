@@ -310,7 +310,7 @@ public class TCPClientConnection {
 					main.main.MODE = 0;
 					c.print();
 					main.main.printOption(this, main.main.sc);
-					return;
+					return; 	
 				}
 				break;
 
@@ -327,7 +327,7 @@ public class TCPClientConnection {
 				}
 				break;
 
-			case PacketType.TYPE_UNSUBACK:
+	 		case PacketType.TYPE_UNSUBACK:
 				break;
 
 			case PacketType.TYPE_PINGREQ:
