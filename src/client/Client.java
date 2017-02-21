@@ -11,7 +11,7 @@ public class Client {
 	// Flag
 	boolean[] flags = new boolean[8];
 	int keepAlive = 0;
-	   clientID;
+	String clientID;
 	String willTopic;
 	String willMessage;
 	String userName;

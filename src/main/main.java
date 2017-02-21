@@ -30,6 +30,7 @@ import constants.PacketFlag;
 import constants.PacketType;
 import parse.Parse;
 import transport.TCPClientConnection;
+import transport.TCPServerConnection;
 import util.BoolUtils;
 import util.ByteUtils;
 import util.ParseUtils;
@@ -79,6 +80,7 @@ public class main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				displayBroker();
+
 			}
 		});
 		
@@ -318,6 +320,20 @@ public class main extends JFrame {
 	public void displayBroker() {
 		JPanel panel = new JPanel(new GridLayout(0, 1));
 		panel.add(new JLabel("Brokering..."));
+
+		Runnable th = new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				TCPServerConnection server = new TCPServerConnection();
+				server.start();
+				server.accept();
+			}
+		};
+		
+		th.run();
+		
 		int result = JOptionPane.showConfirmDialog(null, panel, "Broker", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION) {
 		} else {
