@@ -78,6 +78,18 @@ public class SubackCommand extends Command {
 		this.returncode = returncode;
 	}
 
+	public byte getMsbLengthforPacketID() {
+		return msbLengthforPacketID;
+	}
+
+	public byte getLsbLengthforPacketID() {
+		return lsbLengthforPacketID;
+	}
+
+	public byte[] getReturncode() {
+		return returncode;
+	}
+
 	@Override
 	public void print() {
 		System.out.println("");

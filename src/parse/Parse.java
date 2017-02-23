@@ -411,6 +411,7 @@ public class Parse {
 		temp.setMsbLengthforTopic(receivedTemp[0]);
 		temp.setLsbLengthforTopic(receivedTemp[1]);
 		temp.setTopicName(topicName);
+		temp.setQoS(qos);
 		// Update
 		receivedTemp = Arrays.copyOfRange(receivedTemp, topicArrLen + 2, receivedTemp.length);
 

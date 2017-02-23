@@ -44,5 +44,15 @@ public class PubackCommand extends Command {
 		this.lsbIdentifier = lsbIdentifier;
 	}
 
+	public byte getMsbIdentifier() {
+		return msbIdentifier;
+	}
+
+	public byte getLsbIdentifier() {
+		return lsbIdentifier;
+	}
+
+	
+	
 	
 }

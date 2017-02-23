@@ -166,6 +166,8 @@ public class SubscribeCommand extends Command {
 		return qos;
 	}
 
+	
+	
 	public void setCustomTopicFilter(String[] topics, int[] qos) {
 		int length = topics.length;
 		ArrayList<Byte> _msb = new ArrayList<Byte>();

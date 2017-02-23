@@ -44,6 +44,16 @@ public class PubcompCommand extends Command {
 	public void setLsbPacketIdentifier(byte lsbPacketIdentifier) {
 		this.lsbPacketIdentifier = lsbPacketIdentifier;
 	}
+
+	public byte getMsbPacketIdentifier() {
+		return msbPacketIdentifier;
+	}
+
+	public byte getLsbPacketIdentifier() {
+		return lsbPacketIdentifier;
+	}
+	
+	
 	
 	
 }

@@ -56,7 +56,6 @@ public class UnsubscribeCommand extends Command {
 		// Payload
 		buffer.put(payload);
 	
-		System.out.println(Arrays.toString(buffer.array()));
 		return buffer.array();
 	}
 	

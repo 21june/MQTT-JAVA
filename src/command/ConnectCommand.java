@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import constants.PacketFlag;
 import constants.PacketType;
+import util.BoolUtils;
 import util.ByteUtils;
 import util.ParseUtils;
 
@@ -28,15 +29,15 @@ public class ConnectCommand extends Command {
 	// Payload
 	private byte msbLengthforIdentifier = 0;
 	private byte lsbLengthforIdentifier = 8;
-	private byte identifier[] = { 65, 66, 67, 68, 65, 65, 65, 65 };
+	private byte identifier[] = { 66, 66, 66, 66, 66, 66, 66, 66 };
 
 	private byte msbLengthforWillTopic = 0;
-	private byte lsbLengthforWillTopic = 0;
-	private byte willTopic[] = null;
+	private byte lsbLengthforWillTopic = 3;
+	private byte willTopic[] = {'a', '/', 'b'};
 
 	private byte msbLengthforWillMessage = 0;
-	private byte lsbLengthforWillMessage = 0;
-	private byte willMessage[] = null;
+	private byte lsbLengthforWillMessage = 3;
+	private byte willMessage[] = {'a', 'a', 'a'};
 
 	private byte msbLengthforUserName = 0;
 	private byte lsbLengthforUserName = 0;
@@ -67,6 +68,12 @@ public class ConnectCommand extends Command {
 		buffer.put(ByteUtils.fixedHeaderCalc(type, flag));
 		buffer.put(remainingLength);
 
+		/**
+		 * ConnectFlag Setting
+		 */
+		setFlagCleanSession(true);
+		setFlagWillFlag(true);
+		
 		// Variable Header
 		buffer.put(msbLengthforProtocolName);
 		buffer.put(lsbLengthforProtocolName);
@@ -100,7 +107,7 @@ public class ConnectCommand extends Command {
 		}
 		return buffer.array();
 	}
-	
+
 	/**
 	 * Remaining Length
 	 * 
@@ -135,7 +142,7 @@ public class ConnectCommand extends Command {
 
 		return temp;
 	}
-	
+
 	/**
 	 * Getter & Setter Functions
 	 */
@@ -346,8 +353,80 @@ public class ConnectCommand extends Command {
 	public boolean[] getFlags() {
 		return flags;
 	}
+
+	public void setFlagCleanSession(boolean bool) {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		flags[1] = bool;
+		connectFlag = BoolUtils.booleansToByte(flags);
+	}
+
+	public void setFlagWillFlag(boolean bool) {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		flags[2] = bool;
+		connectFlag = BoolUtils.booleansToByte(flags);
+	}
+
+	public void setFlagWillQoS(byte qos) {
+		boolean[] temp = BoolUtils.getBoolQoS(qos);
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		flags[3] = temp[0];
+		flags[4] = temp[1];
+		connectFlag = BoolUtils.booleansToByte(flags);
+	}
+
+	public void setFlagWillRetain(boolean bool) {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		flags[5] = bool;
+		connectFlag = BoolUtils.booleansToByte(flags);
+	}
+
+	public void setFlagPassword(boolean bool) {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		flags[6] = bool;
+		connectFlag = BoolUtils.booleansToByte(flags);
+	}
+
+	public void setFlagUserName(boolean bool) {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		flags[7] = bool;
+		connectFlag = BoolUtils.booleansToByte(flags);
+	}
+
+	public boolean getFlagCleanSession() {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		return flags[1];
+	}
+
+	public boolean getFlagWill() {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		return flags[2];
+	}
+
+	public byte getFlagWillQoS() {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		boolean[] qos = new boolean[2];
+		qos[0] = flags[3];
+		qos[1] = flags[4];
+		
+		byte temp = BoolUtils.getQoS(qos);
+		
+		return temp;
+	}
 	
-	
+	public boolean getFlagWillRetain() {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		return flags[5];
+	}
+
+	public boolean getFlagPassword() {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		return flags[6];
+	}
+
+	public boolean getFlagUserName() {
+		flags = BoolUtils.byteToBooleans(connectFlag);
+		return flags[7];
+	}
 
 	@Override
 	public void print() {

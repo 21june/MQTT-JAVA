@@ -39,6 +39,7 @@ import util.StringUtils;
 public class main extends JFrame {
 	// zero is normal mode.
 	public static int MODE = 0;
+	public static Command RECENT_COMMAND = null;
 	public static Scanner sc;
 
 	static TCPClientConnection socket = new TCPClientConnection();
@@ -182,8 +183,11 @@ public class main extends JFrame {
 		scom.setCustomTopicFilter(str, qos);
 
 		temp = scom.merge();
+		scom.print();
+		StringUtils.printByteArray(temp);
 		socket.send(temp);
 		MODE = PacketType.TYPE_SUBSCRIBE;
+		RECENT_COMMAND = scom;
 		// socket.read();
 		// MODE = 0;
 	}
@@ -215,6 +219,7 @@ public class main extends JFrame {
 			 * System.out.print("Topic Name(Enter 'X' to exit): "); String tempStr = sc.nextLine(); if (tempStr.equals("X")) break; strArr.add(tempStr);
 			 */
 		}
+		
 		String[] str = new String[strArr.size()];
 		for (int i = 0; i < strArr.size(); i++) {
 			str[i] = strArr.get(i);
@@ -222,8 +227,11 @@ public class main extends JFrame {
 		d.setCustomTopicFilter(str);
 
 		temp = d.merge();
+		StringUtils.printByteArray(temp);
+		d.print();
 		socket.send(temp);
 		MODE = PacketType.TYPE_UNSUBSCRIBE;
+		RECENT_COMMAND = d;
 		// MODE = 0;
 	}
 
@@ -231,8 +239,6 @@ public class main extends JFrame {
 		byte[] temp;
 		Scanner sc = new Scanner(System.in);
 		PublishCommand pc = new PublishCommand();
-		String topic;
-		String message;
 
 		pc.init();
 				
@@ -268,8 +274,13 @@ public class main extends JFrame {
 		int tempInt = sc.nextInt();
 		pc.setQoS(BoolUtils.getBoolQoS((byte) tempInt));
 */
+        System.out.println("STRING: " + field2.getText());
 		temp = pc.merge();
+
+		StringUtils.printByteArray(pc.merge());
 		socket.send(temp);
+		MODE = PacketType.TYPE_PUBLISH;
+		RECENT_COMMAND = pc;
 		// if (pc.getQoS() == 1 || pc.getQoS() == 2)
 		// socket.read();
 		// MODE = 0;
@@ -300,6 +311,7 @@ public class main extends JFrame {
 			socket.connect(arr);
 
 			MODE = PacketType.TYPE_CONNECT;
+			RECENT_COMMAND = c;
 			Runnable run = new Runnable() {
 				@Override
 				public void run() {

@@ -45,6 +45,14 @@ public class PubrecCommand extends Command {
 		this.lsbPacketIdentifier = lsbPacketIdentifier;
 	}
 
+	public byte getMsbPakcetIdentifier() {
+		return msbPakcetIdentifier;
+	}
+
+	public byte getLsbPacketIdentifier() {
+		return lsbPacketIdentifier;
+	}
+
 
 
 	

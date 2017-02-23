@@ -46,6 +46,14 @@ public class UnsubackCommand extends Command {
 		this.lsbPacketIdentifier = lsbPacketIdentifier;
 	}
 
+	public byte getMsbPacketIdentifier() {
+		return msbPacketIdentifier;
+	}
+
+	public byte getLsbPacketIdentifier() {
+		return lsbPacketIdentifier;
+	}
+
 	
 	
 }
