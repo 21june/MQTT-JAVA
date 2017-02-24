@@ -37,7 +37,7 @@ public class ConnectCommand extends Command {
 
 	private byte msbLengthforWillMessage = 0;
 	private byte lsbLengthforWillMessage = 3;
-	private byte willMessage[] = {'a', 'a', 'a'};
+	private byte willMessage[] = {'R', 'I', 'P'};
 
 	private byte msbLengthforUserName = 0;
 	private byte lsbLengthforUserName = 0;
@@ -58,6 +58,12 @@ public class ConnectCommand extends Command {
 
 	@Override
 	public byte[] merge() {
+		/**
+		 * ConnectFlag Setting
+		 */
+		setFlagCleanSession(true);
+		setFlagWillFlag(true);
+		
 		// TODO Auto-generated method stub
 		remainingLength = ByteUtils.encodeRL(getIntValueRL());
 		int arrayLenRL = ByteUtils.getArrayLenRL(getIntValueRL());
@@ -68,11 +74,6 @@ public class ConnectCommand extends Command {
 		buffer.put(ByteUtils.fixedHeaderCalc(type, flag));
 		buffer.put(remainingLength);
 
-		/**
-		 * ConnectFlag Setting
-		 */
-		setFlagCleanSession(true);
-		setFlagWillFlag(true);
 		
 		// Variable Header
 		buffer.put(msbLengthforProtocolName);
@@ -452,6 +453,8 @@ public class ConnectCommand extends Command {
 		else
 			System.out.println("Will Message : " + new String(willMessage));
 
+		System.out.println("Will Retain : " + getFlagWillRetain());
+		
 		System.out.println("User Name Length : " + ByteUtils.calcLengthMSBtoLSB(msbLengthforUserName, lsbLengthforUserName));
 		if (userName == null)
 			System.out.println("User Name : [Null]");
