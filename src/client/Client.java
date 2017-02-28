@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Client {
 	// Subscribe
 	ArrayList<String> subTopic = new ArrayList<String>();
-	ArrayList<Byte> subQoS = new ArrayList<Byte>();
+	ArrayList<Byte> subRequestedQoS = new ArrayList<Byte>();
 	
 	// Flag
 	boolean[] flags = new boolean[8];
@@ -39,12 +39,12 @@ public class Client {
 		this.subTopic = subTopic;
 	}
 
-	public ArrayList<Byte> getSubQoS() {
-		return subQoS;
+	public ArrayList<Byte> getSubRequestedQoS() {
+		return subRequestedQoS;
 	}
 
-	public void setSubQoS(ArrayList<Byte> subQoS) {
-		this.subQoS = subQoS;
+	public void setSubQoS(ArrayList<Byte> subRequestedQoS) {
+		this.subRequestedQoS = subRequestedQoS;
 	}
 
 	public boolean[] getFlags() {

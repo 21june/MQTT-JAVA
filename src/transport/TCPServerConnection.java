@@ -24,8 +24,6 @@ import util.StringUtils;
 
 public class TCPServerConnection {
 
-	private ArrayList<Client> arrClient = new ArrayList();
-	private HashMap<String, ArrayList<Client>> hash = new HashMap<>();
 	private ServerSocket ss;
 
 	public void start() {
@@ -40,7 +38,7 @@ public class TCPServerConnection {
 	}
 
 	public Socket accept() {
-		Socket s = null;
+		Socket s = null; 
 		byte[] commBuffer = new byte[4096];
 		int receiveDataSize = 0;
 		try {
@@ -52,7 +50,7 @@ public class TCPServerConnection {
 			Client client = new Client();
 			client.setIp(hostAddr);
 			client.setSocket(s);
-			arrClient.add(client);
+			ServerData.arrClient.add(client);
 
 			System.out.println("[Broker] " + hostAddr + " Accept! ");
 
@@ -87,7 +85,7 @@ public class TCPServerConnection {
 						client.setWillTopic(new String(cc.getWillTopic()));
 
 					client.setSocket(s);
-					arrClient.add(client);
+					ServerData.arrClient.add(client);
 
 					ConnackCommand con = new ConnackCommand();
 					con.init();
@@ -100,11 +98,12 @@ public class TCPServerConnection {
 				} else if (com.getType() == PacketType.TYPE_PUBLISH) {
 					System.out.println("[Broker] PUBLISH");
 					PublishCommand pc = (PublishCommand) com;
+					ServerData.hashPubMsg.get(new String(pc.getPayload()));
 					pc.print();
-
-					if (hash.get(new String(pc.getTopicName())) != null) {
+ 
+					if (ServerData.hashClient.get(new String(pc.getTopicName())) != null) {
 						System.out.println("[Broker] Topic: " + new String(pc.getTopicName()));
-						ArrayList<Client> tempArr = hash.get(new String(pc.getTopicName()));
+						ArrayList<Client> tempArr = ServerData.hashClient.get(new String(pc.getTopicName()));
 						if (tempArr != null) {
 							for (int i = 0; i < tempArr.size(); i++) {
 								System.out.println("PUBLUSH HOST: " + tempArr.get(i).getSocket().getInetAddress().getHostAddress());
@@ -120,7 +119,7 @@ public class TCPServerConnection {
 					ArrayList<Byte[]> topicArr = sc.getTopicFilter();
 					for (int i = 0; i < topicArr.size(); i++) {
 						String topic = new String(ByteUtils.toPrimitives(topicArr.get(i)));
-						ArrayList<Client> tempArr = hash.get(topic);
+						ArrayList<Client> tempArr = ServerData.hashClient.get(topic);
 						System.out.println("[Broker] Topic: " + new String(topic));
 						if (tempArr != null) {
 							tempArr.add(client);
@@ -128,7 +127,7 @@ public class TCPServerConnection {
 							tempArr = new ArrayList<Client>();
 							tempArr.add(client);
 						}
-						hash.put(topic, tempArr);
+						ServerData.hashClient.put(topic, tempArr);
 					}
 				}
 			}

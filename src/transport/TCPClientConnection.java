@@ -168,7 +168,7 @@ public class TCPClientConnection {
 				byte _lsb = pc.getLsbLengthforPacketID();
 				byte qos = pc.getQoS();
 
-				System.out.println("[RECEIVER] QOS: " + qos);
+				System.out.println(" [RECEIVER] QOS: " + qos);
 
 				/**
 				 * QoS1 Sequence 1. Receive PUBLISH. (Completed) 2. Send PUBACK.
