@@ -97,7 +97,7 @@ public class TCPServerConnection {
 					System.out.println("[Broker] CONNACK SEND!");
 				} else if (com.getType() == PacketType.TYPE_PUBLISH) {
 					System.out.println("[Broker] PUBLISH");
-					PublishCommand pc = (PublishCommand) com;
+					PublishCommand pc = (PublishCommand) com; 
 					ServerData.hashPubMsg.get(new String(pc.getPayload()));
 					pc.print();
  
