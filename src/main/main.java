@@ -48,25 +48,26 @@ public class main extends JFrame {
 	JButton b2 = new JButton("Unsubscribe");
 	JButton b3 = new JButton("Publish");
 	JButton b4 = new JButton("Disconnect");
+	public static JLabel brokerLabel = new JLabel("Brokering...");
 
 	main() {
-		
+
 		JPanel jp = new JPanel();
 		JButton jb1 = new JButton("Client");
 		JButton jb2 = new JButton("Broker");
-		
+
 		jp.setLayout(new FlowLayout());
 		setSize(400, 100);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		jp.add(jb1);
 		jp.add(jb2);
-		
+
 		add(jp);
-		
+
 		jb1.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -74,9 +75,9 @@ public class main extends JFrame {
 				jp.removeAll();
 			}
 		});
-		
+
 		jb2.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -84,11 +85,11 @@ public class main extends JFrame {
 
 			}
 		});
-		
+
 	}
 
 	public static main mf;
-	
+
 	public static void main(String[] args) {
 		mf = new main();
 		sc = new Scanner(System.in);
@@ -97,7 +98,7 @@ public class main extends JFrame {
 		 */
 
 		// socket.start(address);
-		// socket.connect(arr);
+		// socket.connect(arr);	
 		/*
 		 * MODE = PacketType.TYPE_CONNECT; Runnable run = new Runnable() {
 		 * 
@@ -209,7 +210,7 @@ public class main extends JFrame {
 				String temp_str = field1.getText();
 				strArr.add(temp_str);
 				break;
-			} else if(result == JOptionPane.CANCEL_OPTION) {
+			} else if (result == JOptionPane.CANCEL_OPTION) {
 				return;
 			} else {
 				String temp_str = field1.getText();
@@ -219,7 +220,7 @@ public class main extends JFrame {
 			 * System.out.print("Topic Name(Enter 'X' to exit): "); String tempStr = sc.nextLine(); if (tempStr.equals("X")) break; strArr.add(tempStr);
 			 */
 		}
-		
+
 		String[] str = new String[strArr.size()];
 		for (int i = 0; i < strArr.size(); i++) {
 			str[i] = strArr.get(i);
@@ -241,40 +242,34 @@ public class main extends JFrame {
 		PublishCommand pc = new PublishCommand();
 
 		pc.init();
-				
+
 		String[] items = { "QoS 0", "QoS 1", "QoS 2" };
-        JComboBox combo = new JComboBox(items);
-        JTextField field1 = new JTextField("a/b");
-        JTextField field2 = new JTextField("hello~");
-        JPanel panel = new JPanel(new GridLayout(0, 1));
-        panel.add(combo);
-        panel.add(new JLabel("Topic Name:"));
-        panel.add(field1);
-        panel.add(new JLabel("Message:"));
-        panel.add(field2);
-        int result = JOptionPane.showConfirmDialog(null, panel, "Publish Message",
-            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        if (result == JOptionPane.OK_OPTION) {
-        	pc.setCustomTopicName(field1.getText());
-        	pc.setCustomPayload(field2.getText());
-        	pc.setQoS(BoolUtils.getBoolQoS((byte) combo.getSelectedIndex()));
-        } else {
-            System.out.println("Cancelled");
-        }
-        
-/*		System.out.print("Topic Name: ");
-		topic = sc.nextLine();
-		pc.setCustomTopicName(topic);
+		JComboBox combo = new JComboBox(items);
+		JTextField field1 = new JTextField("a/b");
+		JTextField field2 = new JTextField("hello~");
+		JPanel panel = new JPanel(new GridLayout(0, 1));
+		panel.add(combo);
+		panel.add(new JLabel("Topic Name:"));
+		panel.add(field1);
+		panel.add(new JLabel("Message:"));
+		panel.add(field2);
+		int result = JOptionPane.showConfirmDialog(null, panel, "Publish Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (result == JOptionPane.OK_OPTION) {
+			pc.setCustomTopicName(field1.getText());
+			pc.setCustomPayload(field2.getText());
+			pc.setQoS(BoolUtils.getBoolQoS((byte) combo.getSelectedIndex()));
+		} else {
+			System.out.println("Cancelled");
+		}
 
-		System.out.print("Message: ");
-		message = sc.nextLine();
-		pc.setCustomPayload(message);
-
-		System.out.print("QoS (0, 1, 2): ");
-		int tempInt = sc.nextInt();
-		pc.setQoS(BoolUtils.getBoolQoS((byte) tempInt));
-*/
-        System.out.println("STRING: " + field2.getText());
+		/*
+		 * System.out.print("Topic Name: "); topic = sc.nextLine(); pc.setCustomTopicName(topic);
+		 * 
+		 * System.out.print("Message: "); message = sc.nextLine(); pc.setCustomPayload(message);
+		 * 
+		 * System.out.print("QoS (0, 1, 2): "); int tempInt = sc.nextInt(); pc.setQoS(BoolUtils.getBoolQoS((byte) tempInt));
+		 */
+		System.out.println("STRING: " + field2.getText());
 		temp = pc.merge();
 
 		StringUtils.printByteArray(pc.merge());
@@ -296,16 +291,22 @@ public class main extends JFrame {
 
 	public void displayClient() {
 		JTextField field1 = new JTextField("192.168.0.77");
+		JTextField field2 = new JTextField("abcd");
 		JPanel panel = new JPanel(new GridLayout(0, 1));
 		panel.add(new JLabel("Address (Port:1883 TCP):"));
 		panel.add(field1);
+		panel.add(new JLabel("Client ID :"));
+		panel.add(field2);
 		int result = JOptionPane.showConfirmDialog(null, panel, "Connect", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION) {
 			String address = field1.getText();
+			String cID = field2.getText();
+			
 			socket = new TCPClientConnection();
 			socket.start(field1.getText());
-			Command c = new ConnectCommand();
+			ConnectCommand c = new ConnectCommand();
 			c.init();
+			c.setIdentifier(StringUtils.getUTF8BytesFromString(cID));
 			byte[] arr = c.merge();
 
 			socket.connect(arr);
@@ -323,35 +324,37 @@ public class main extends JFrame {
 			};
 			new Thread(run).start();
 
-			
 		} else {
 			System.out.println("Cancelled");
 		}
 	}
-	
+
 	public void displayBroker() {
 		JPanel panel = new JPanel(new GridLayout(0, 1));
-		panel.add(new JLabel("Brokering..."));
-
-		Runnable th = new Runnable() {
-			
+		panel.add(brokerLabel);
+		
+		Runnable run = new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				TCPServerConnection server = new TCPServerConnection();
 				server.start();
-				server.accept();
+				server.acceptServer();
 			}
 		};
 		
+		Thread th = new Thread(run);
 		th.run();
 		
+		/*
 		int result = JOptionPane.showConfirmDialog(null, panel, "Broker", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION) {
 		} else {
 		}
+		*/
+		
 	}
-	
+
 	public void setInitUI() {
 		setTitle("MQTT Client");
 		setSize(500, 100);

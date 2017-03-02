@@ -45,7 +45,7 @@ public class Parse {
 		switch (type) {
 		case 1: // CONNECT
 			if (flag == PacketFlag.FLAG_CONNECT) {
-				System.out.print("---{CONNECT MESSAGE}---          ");
+				//System.out.print("---{CONNECT MESSAGE}---          ");
 				parsedCom = new ConnectCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -55,7 +55,7 @@ public class Parse {
 			break;
 		case 2: // CONNACK
 			if (flag == PacketFlag.FLAG_CONNACK) {
-				System.out.print("---{CONNACK MESSAGE}---          ");
+				//System.out.print("---{CONNACK MESSAGE}---          ");
 				parsedCom = new ConnackCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -64,7 +64,7 @@ public class Parse {
 			}
 			break;
 		case 3: // PUBLISH
-			System.out.print("---{PUBLISH MESSAGE}---          ");
+			//System.out.print("---{PUBLISH MESSAGE}---          ");
 			parsedCom = new PublishCommand();
 			parsedCom.init();
 			parsedCom.setType(type);
@@ -73,7 +73,7 @@ public class Parse {
 			break;
 		case 4: // PUBACK
 			if (flag == PacketFlag.FLAG_PUBACK) {
-				System.out.print("---{PUBACK MESSAGE}---           ");
+				//System.out.print("---{PUBACK MESSAGE}---           ");
 				parsedCom = new PubackCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -83,7 +83,7 @@ public class Parse {
 			break;
 		case 5: // PUBREC
 			if (flag == PacketFlag.FLAG_PUBREC) {
-				System.out.print("---{PUBREC MESSAGE}---           ");
+				//System.out.print("---{PUBREC MESSAGE}---           ");
 				parsedCom = new PubrecCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -93,7 +93,7 @@ public class Parse {
 			break;
 		case 6: // PUBREL
 			if (flag == PacketFlag.FLAG_PUBREL) {
-				System.out.print("---{PUBREL MESSAGE}---           ");
+				//System.out.print("---{PUBREL MESSAGE}---           ");
 				parsedCom = new PubrelCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -103,7 +103,7 @@ public class Parse {
 			break;
 		case 7: // PUBCOMP
 			if (flag == PacketFlag.FLAG_PUBCOMP) {
-				System.out.print("---{PUBCOMP MESSAGE}---          ");
+				//System.out.print("---{PUBCOMP MESSAGE}---          ");
 				parsedCom = new PubcompCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -113,7 +113,7 @@ public class Parse {
 			break;
 		case 8: // SUBSCRIBE
 			if (flag == PacketFlag.FLAG_SUBSCRIBE) {
-				System.out.print("---{SUBSCRIBE MESSAGE}---        ");
+				//System.out.print("---{SUBSCRIBE MESSAGE}---        ");
 				parsedCom = new SubscribeCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -123,7 +123,7 @@ public class Parse {
 			break;
 		case 9: // SUBACK
 			if (flag == PacketFlag.FLAG_SUBACK) {
-				System.out.print("---{SUBACK MESSAGE}---           ");
+				//System.out.print("---{SUBACK MESSAGE}---           ");
 				parsedCom = new SubackCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -133,7 +133,7 @@ public class Parse {
 			break;
 		case 10: // UNSUBSCRIBE
 			if (flag == PacketFlag.FLAG_UNSUBSCRIBE) {
-				System.out.print("---{UNSUBSCRIBE MESSAGE}---      ");
+				//System.out.print("---{UNSUBSCRIBE MESSAGE}---      ");
 				parsedCom = new UnsubscribeCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -143,7 +143,7 @@ public class Parse {
 			break;
 		case 11: // UNSUBACK
 			if (flag == PacketFlag.FLAG_UNSUBACK) {
-				System.out.print("---{UNSUBACK MESSAGE}---         ");
+				//System.out.print("---{UNSUBACK MESSAGE}---         ");
 				parsedCom = new UnsubackCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -153,7 +153,7 @@ public class Parse {
 			break;
 		case 12: // PINGREQ
 			if (flag == PacketFlag.FLAG_PINGREQ) {
-				System.out.print("---{PINGREQ MESSAGE}---          ");
+				//System.out.print("---{PINGREQ MESSAGE}---          ");
 				parsedCom = new PingreqCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -163,7 +163,7 @@ public class Parse {
 			break;
 		case 13: // PINGRESP
 			if (flag == PacketFlag.FLAG_PINGRESP) {
-				System.out.print("---{PINGRESP MESSAGE}---         ");
+				//System.out.print("---{PINGRESP MESSAGE}---         ");
 				parsedCom = new PingrespCommand();
 				parsedCom.init();
 				parsedCom.setType(type);
@@ -173,7 +173,7 @@ public class Parse {
 			break;
 		case 14: // DISCONNECT
 			if (flag == PacketFlag.FLAG_DISCONNECT) {
-				System.out.print("---{DISCONNECT MESSAGE}---       ");
+				//System.out.print("---{DISCONNECT MESSAGE}---       ");
 				parsedCom = new DisconnectCommand();
 				parsedCom.init();
 				parsedCom.setType(type);

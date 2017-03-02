@@ -69,6 +69,4 @@ public class PublishMessage {
 	public void setSocketPub(Socket socketPub) {
 		this.socketPub = socketPub;
 	}
-	
-	
 }

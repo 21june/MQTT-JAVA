@@ -43,7 +43,6 @@ public class PublishCommand extends Command {
 		remainingLength = ByteUtils.encodeRL(getIntValueRL());
 		int arrayLenRL = ByteUtils.getArrayLenRL(getIntValueRL());
 		byte[] mergedBytes = new byte[1 + arrayLenRL + getIntValueRL()];
-		System.out.println("Merged Bytes Length : " + mergedBytes.length);
 
 		ByteBuffer buffer = ByteBuffer.wrap(mergedBytes);
 		// Fixed Header

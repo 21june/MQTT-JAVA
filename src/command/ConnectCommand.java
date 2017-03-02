@@ -85,8 +85,9 @@ public class ConnectCommand extends Command {
 		buffer.put(lsbKeepAlive);
 
 		// Payload
-		buffer.put(msbLengthforIdentifier);
-		buffer.put(lsbLengthforIdentifier);
+		byte[] msblsb = ByteUtils.getMsbLsb(identifier.length);
+		buffer.put(msblsb[0]);
+		buffer.put(msblsb[1]);
 		buffer.put(identifier);
 		if (flags[2]) {
 			buffer.put(msbLengthforWillTopic);
