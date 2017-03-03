@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +45,8 @@ public class main extends JFrame {
 	public static Scanner sc;
 
 	static TCPClientConnection socket = new TCPClientConnection();
-
+	static TCPServerConnection server;
+	static Thread serverThread;
 	JButton b1 = new JButton("Subscribe");
 	JButton b2 = new JButton("Unsubscribe");
 	JButton b3 = new JButton("Publish");
@@ -65,6 +68,17 @@ public class main extends JFrame {
 		jp.add(jb2);
 
 		add(jp);
+
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+
+				if (server != null) {
+					server.close();
+					server.thread = false;
+				}
+			}
+		});
 
 		jb1.addActionListener(new ActionListener() {
 
@@ -98,7 +112,7 @@ public class main extends JFrame {
 		 */
 
 		// socket.start(address);
-		// socket.connect(arr);	
+		// socket.connect(arr);
 		/*
 		 * MODE = PacketType.TYPE_CONNECT; Runnable run = new Runnable() {
 		 * 
@@ -301,7 +315,7 @@ public class main extends JFrame {
 		if (result == JOptionPane.OK_OPTION) {
 			String address = field1.getText();
 			String cID = field2.getText();
-			
+
 			socket = new TCPClientConnection();
 			socket.start(field1.getText());
 			ConnectCommand c = new ConnectCommand();
@@ -332,27 +346,27 @@ public class main extends JFrame {
 	public void displayBroker() {
 		JPanel panel = new JPanel(new GridLayout(0, 1));
 		panel.add(brokerLabel);
-		
+
 		Runnable run = new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				TCPServerConnection server = new TCPServerConnection();
+				server = new TCPServerConnection();
 				server.start();
 				server.acceptServer();
 			}
 		};
-		
-		Thread th = new Thread(run);
-		th.run();
-		
-		/*
+
+		serverThread = new Thread(run);
+		serverThread.start();
+
 		int result = JOptionPane.showConfirmDialog(null, panel, "Broker", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION) {
+			server.close();
+			server.thread = false;
 		} else {
 		}
-		*/
-		
+
 	}
 
 	public void setInitUI() {

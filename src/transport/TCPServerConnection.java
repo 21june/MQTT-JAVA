@@ -35,6 +35,7 @@ public class TCPServerConnection {
 	public static int MODE = 0;
 	private ServerSocket ss;
 	private Socket clientSock = null;
+	public boolean thread = true;
 
 	public void start() {
 		try {
@@ -64,7 +65,7 @@ public class TCPServerConnection {
 			DataOutputStream dos = new DataOutputStream(os);
 			InputStream is = s.getInputStream();
 			java.io.DataInputStream dis = new DataInputStream(is);
-			while (true) {
+			while (thread) {
 				receiveDataSize = dis.read(commBuffer);
 				if (receiveDataSize < 0)
 					continue;
@@ -131,7 +132,7 @@ public class TCPServerConnection {
 						System.out.println("[PUBLISH/RECEIVER/QoS2] 1. WRITING PUBREC to '" + client.getClientID() + "'");
 
 						// READ PUBREL from PUBLISHER
-						while (true) {
+						while (thread) {
 							int receivePubrelSize = 0;
 							byte[] pubrelBuffer = new byte[4096];
 							byte[] receivePubrel;
@@ -283,6 +284,10 @@ public class TCPServerConnection {
 					// READ PUBCOMP from SUBSCRIBER
 					System.out.println("[BROKER] PUBCOMP RECEIVED! '" + client.getClientID() + "' [QoS2]");
 					System.out.println("[BROKER] PUBLISH TO '" + client.getClientID() + "' COMPLETED! [QoS2]");
+				} else if(com.getType() == PacketType.TYPE_DISCONNECT) {
+					s.close();
+					System.out.println("[BROKER] DISCONNECTED TO '" + client.getClientID() + "'");
+					return;
 				}
 			}
 
@@ -295,10 +300,10 @@ public class TCPServerConnection {
 
 	public void acceptServer() {
 		int i = 0;
-		while (true) {
+		while (thread) {
 			try {
 				if ((clientSock = ss.accept()) != null) {
-					System.out.println("[BROKER] ACCEPT Client " + ss.getInetAddress().getLocalHost().getHostAddress());
+					System.out.println("[BROKER] ACCEPT Client " + clientSock.getRemoteSocketAddress().toString());
 					Runnable run = new Runnable() {
 						@Override
 						public void run() {
@@ -339,7 +344,7 @@ public class TCPServerConnection {
 			DataOutputStream dos = new DataOutputStream(os);
 			InputStream is = s.getInputStream();
 			java.io.DataInputStream dis = new DataInputStream(is);
-			while (true) {
+			while (thread) {
 				receiveDataSize = dis.read(commBuffer);
 				byte[] receiveData = new byte[receiveDataSize];
 				for (int j = 0; j < receiveDataSize; j++)
@@ -402,7 +407,7 @@ public class TCPServerConnection {
 						s.getOutputStream().write(prec.merge());
 
 						// READ PUBREL from PUBLISHER
-						while (true) {
+						while (thread) {
 							int receivePubrelSize = 0;
 							byte[] pubrelBuffer = new byte[4096];
 							byte[] receivePubrel;
@@ -488,5 +493,15 @@ public class TCPServerConnection {
 		}
 
 		return s;
+	}
+	
+	public void close() {
+		try {
+			System.out.println("[Server Socket] Close");
+			ss.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
